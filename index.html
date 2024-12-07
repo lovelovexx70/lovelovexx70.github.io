@@ -46,41 +46,37 @@
         }
     </style>
     <script>
-        
-        const encryptedUrl = "U2FsdGVkX1+k1XtvbUG5fJlcjR4HdtReQsmgRI7G9l4="; 
+        const encryptedUrl = "U2FsdGVkX1+k1XtvbUG5fJlcjR4HdtReQsmgRI7G9l4=";
 
-        
         async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message); 
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer); 
-            const hashArray = Array.from(new Uint8Array(hashBuffer)); 
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); 
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        
         async function validatePassword() {
             const inputPassword = document.getElementById("password").value;
             const hashedPassword = await sha256(inputPassword);
-            console.log("輸入的密碼雜湊值: " + hashedPassword); // 顯示用戶輸入的密碼的雜湊值
 
-            // 正確密碼的雜湊值
-            const correctHash = "746101d4c9171e39505aecbe4adfef66ccb7793c73f0813f915edb4d3f6ce077"; 6 
+            const correctHash = "746101d4c9171e39505aecbe4adfef66ccb7793c73f0813f915edb4d3f6ce077"; 
 
             if (hashedPassword === correctHash) {
-                console.log("密碼正確，開始解密網址...");
-                const decryptedUrl = decryptUrl(encryptedUrl, hashedPassword); 
-                console.log("解密後的網址: " + decryptedUrl); 
-                window.location.href = decryptedUrl; 
+                const decryptedUrl = decryptUrl(encryptedUrl, hashedPassword);
+                if (decryptedUrl) {
+                    window.location.href = decryptedUrl;
+                } else {
+                    alert("解密失敗！");
+                }
             } else {
                 alert("密碼錯誤，請重新輸入！");
                 document.getElementById("password").value = "";
             }
         }
 
-        
         function decryptUrl(encryptedUrl, key) {
-            const bytes = CryptoJS.AES.decrypt(encryptedUrl, key); 
-            return bytes.toString(CryptoJS.enc.Utf8); 
+            const bytes = CryptoJS.AES.decrypt(encryptedUrl, key);
+            return bytes.toString(CryptoJS.enc.Utf8);
         }
     </script>
 </head>
