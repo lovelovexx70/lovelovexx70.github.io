@@ -61,12 +61,15 @@
         async function validatePassword() {
             const inputPassword = document.getElementById("password").value;
             const hashedPassword = await sha256(inputPassword);
+            console.log("輸入的密碼雜湊值: " + hashedPassword); // 顯示用戶輸入的密碼的雜湊值
 
-            
-            const correctHash = "746101d4c9171e39505aecbe4adfef66ccb7793c73f0813f915edb4d3f6ce077"; 
+            // 正確密碼的雜湊值
+            const correctHash = "746101d4c9171e39505aecbe4adfef66ccb7793c73f0813f915edb4d3f6ce077"; 6 
 
             if (hashedPassword === correctHash) {
+                console.log("密碼正確，開始解密網址...");
                 const decryptedUrl = decryptUrl(encryptedUrl, hashedPassword); 
+                console.log("解密後的網址: " + decryptedUrl); 
                 window.location.href = decryptedUrl; 
             } else {
                 alert("密碼錯誤，請重新輸入！");
