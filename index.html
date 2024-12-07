@@ -46,7 +46,8 @@
         }
     </style>
     <script>
-        const encryptedUrl = "U2FsdGVkX1+k1XtvbUG5fJlcjR4HdtReQsmgRI7G9l4=";
+        const correctHashedPassword = "40f6ec0e385ad9c71462945775d76ad94c2150f5cb9c5274826ed01bb2ef843c";
+        const hashedRedirectUrl = "ed2de09e292f38e7e0a8f0b5c88348fc80a2a68e9a2ffdf23b92f9fd5fce462f";
 
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -59,24 +60,16 @@
             const inputPassword = document.getElementById("password").value;
             const hashedPassword = await sha256(inputPassword);
 
-            const correctHash = "746101d4c9171e39505aecbe4adfef66ccb7793c73f0813f915edb4d3f6ce077"; 
-
-            if (hashedPassword === correctHash) {
-                const decryptedUrl = decryptUrl(encryptedUrl, hashedPassword);
-                if (decryptedUrl) {
-                    window.location.href = decryptedUrl;
-                } else {
-                    alert("解密失敗！");
+            if (hashedPassword === correctHashedPassword) {
+                const finalUrl = "http://bit.ly/3Vsyfmu";
+                const hashedUrl = await sha256(finalUrl);
+                if (hashedUrl === hashedRedirectUrl) {
+                    window.location.href = finalUrl;
                 }
             } else {
                 alert("密碼錯誤，請重新輸入！");
                 document.getElementById("password").value = "";
             }
-        }
-
-        function decryptUrl(encryptedUrl, key) {
-            const bytes = CryptoJS.AES.decrypt(encryptedUrl, key);
-            return bytes.toString(CryptoJS.enc.Utf8);
         }
     </script>
 </head>
