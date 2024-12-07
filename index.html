@@ -49,8 +49,8 @@
             const inputPassword = document.getElementById("password").value;
             const hashedPassword = await sha256(inputPassword);
 
-            // 預先保存的正確雜湊值
-            const correctHash = "58e6e631eb11b3cb0840fd27a2cb7cbfc0b119d7c5fc5d89db720fb6a46024f2";
+            // 更新的正確雜湊值
+            const correctHash = "746101d4c9171e39505aecbe4adfef66ccb7793c73f0813f915edb4d3f6ce077";
             if (hashedPassword === correctHash) {
                 window.location.href = "https://docs.google.com/document/d/1yB2-LgsWmq1HdeUYtbVKqwStvK9qR3OBgJxkiGDYLR4/edit?usp=drivesdk";
             } else {
